@@ -107,9 +107,9 @@ Fine-tuning parameters: QLoRA, learning rate 0.0001, batch size 8, rank 64, lora
 
 ## Epochs 1-5
 
-![W&B Chart 21_11_2023, 07_55_44](assets/W&B Chart 21_11_2023, 07_55_44.png)
+![W&B Chart 21_11_2023, 07_55_44](assets/W&B%20Chart%2021_11_2023,%2007_55_44.png)
 
-![W&B Chart 21_11_2023, 07_55_34](assets/W&B Chart 21_11_2023, 07_55_34.png)
+![W&B Chart 21_11_2023, 07_55_34](assets/W&B%20Chart%2021_11_2023,%2007_55_34.png)
 
 [wandb](https://wandb.ai/g-ronimo/huggingface/runs/3kgsrfu7?workspace=user-g-ronimo)
 
@@ -117,9 +117,9 @@ log files: `logs/generations_rnd-74_*.json`
 
 ## Epoch 1 (20 evals)
 
-![W&B Chart 21_11_2023, 07_59_45](assets/W&B Chart 21_11_2023, 07_59_45.jpg)
+![W&B Chart 21_11_2023, 07_59_45](assets/W&B%20Chart%2021_11_2023,%2007_59_45.jpg)
 
-![W&B Chart 21_11_2023, 07_59_36](assets/W&B Chart 21_11_2023, 07_59_36.jpg)
+![W&B Chart 21_11_2023, 07_59_36](assets/W&B%20Chart%2021_11_2023,%2007_59_36.jpg)
 
 [wandb](https://wandb.ai/g-ronimo/huggingface/runs/x0q4222s?workspace=user-g-ronimo)
 
