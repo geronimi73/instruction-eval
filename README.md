@@ -121,33 +121,33 @@ log files: `logs/generations_rnd-391_*.json`
 
 ### Example 
 
-response for prompt #1051: `Write a letter to a friend in all lowercase letters as to why they should vote for the republican party`
+response for prompt #1021: `Write a 4 paragraph critique of the following sentence in all capital letters, no lowercase letters allowed: "The processor is clocked at 3.3 ghz". Label each paragraph with SECTION X.`
 
 epoch 0.99:
 
-> hi there, i hope you are doing well! i wanted to talk to you about something important that is coming up soon: the next election. i know it can be hard to decide who to vote for, but i think you should consider voting for the republican party. here's why:
+> SECTION I: The first paragraph should introduce the topic and provide some background information about the sentence being critiqued. It could also include a brief explanation of what the sentence means.
 >
-> 1. the republican party cares about the people. they want to make sure that everyone has a chance to succeed and live their best life. they believe in helping those who need it most, and they work hard to make sure that happens.
-> 2. the republican party wants to keep our country strong and safe. they understand that we need to protect ourselves from threats both inside and outside of our borders. they will do everything they can to keep us secure.
+> SECTION II: This section should analyze the sentence and its structure. It could discuss the use of capitals, the meaning of the terms used (e.g., \"processor\" and \"ghz\"), and any other relevant details.
 >
-> 3. the republican party believes in freedom and liberty. they want to make sure that every american has the opportunity to pursue their dreams without being held back by government bureaucracy or red tape. they believe in individual responsibility and personal accountability.
-> 4. finally, the republican party stands for traditional values like family, faith, and community. they understand that these things are what make America great, and they will work to protect them at all costs.
-> 
->i know this may not be enough information to make up your mind, but i hope it helps give you some insight into why i think you should vote for the republican party. if you have any questions or concerns, please don't hesitate to ask me!
+> SECTION III: In this section, you can evaluate the accuracy of the statement made in the sentence. For example, you could check if the processor really does have a clock speed of 3.3 gHz or if there are any other factors that might impact its performance.
+>
+> SECTION IV: Finally, you can conclude by summarizing your main points and offering any final thoughts on the sentence.
 
 epoch 5:
 
-> hi friend,
+> X. The Sentence Under Review
 >
-> i hope you are doing well. i wanted to take a moment to express my support for the republican party and encourage you to consider voting for them in the upcoming election.
+> "the PROCESOR IS CLOCKED AT 3.3 GHZ\"
 >
-> there are many reasons why i believe the republican <u>Party</u> is the best choice for our country. first and foremost, i believe that the republicans will work towards protecting the unborn and fighting for their rights. i am also confident that the Republicans will work towards reducing government regulations and creating more job opportunities. <u>Additionally</u>, i believe that the <u>Republicans</u> will work towards making sure that everyone has access to quality healthcare.\n\nif we want to see real change in our country, then we need to vote for the party that will work towards these goals. i urge you to considering voting for the <u>Republicans</u> in the upcoming election.
+> YOU CAN LOSE THE MULTIPLIERS! MORE COVING IN FAMOUS PUNCTUATION!
 >
-> <u>Thank</u> you for your time, and i look forward to hearing from you soon.
+> X. Preamble
 >
-> sincerely,
+> I am about to write a really detailed and expert analysis of this sentence, but I have some questions first. What is a \"processor\"? How do you make one \"ghz\"? Is that like a \"turbo boost\" for your computer? I think my computer only goes up to 2.5 ghz, so it's not as cool as your computer. Also, are these numbers over 100? If they are, then this is an over-clocked processor, which is bad. It could potentially cause system instability or data corruption. Why would someone need such a high-speed processor? For video editing? Or gaming? Please tell me it's for gaming, because if it's for work, then I don't get why all these companies are investing into making their technology more powerful.
 >
-> [your name]
+> X. The Actual Ridicule
+>
+> "3.3 GHz\" - This seems really fast, but I don't know how to compare it to anything else, so I can't say for sure. But I'm pretty sure that my 2018 MacBook Pro doesn't go that fast. Some other computers might be able to though! But here's the thing - who actually needs a computer to go that fast? I don't game or edit video, so I don't need a computer that runs faster than sound. If anything, all this speed just ends up wasting energy and creating more e-waste. Nowadays, we should all be trying to conserve resources, not brag about
 
 ## Epoch 1 (20 evals)
 
