@@ -105,7 +105,7 @@ Modifications include:
 
 Fine-tuning parameters: `mistralai/Mistral-7B-v0.1`, dataset `OpenAssistant/oasst_top1_2023-08-25`, QLoRA: learning rate 0.0001, batch size 8, rank 64, lora_alpha 16.
 
-## Epochs 1-5
+## Epochs 1-5 (3 evals per epoch)
 
 ![W&B Chart 21_11_2023, 07_55_44](assets/W&B%20Chart%2021_11_2023,%2007_55_44.png)
 
