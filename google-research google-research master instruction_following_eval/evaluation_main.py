@@ -26,6 +26,7 @@ from absl import flags
 from absl import logging
 
 from instruction_following_eval import instructions_registry
+from instruction_following_eval import instructions
 
 
 _INPUT_DATA = flags.DEFINE_string(
@@ -61,19 +62,16 @@ class OutputExample:
   follow_instruction_list: list[bool]
 
 
-def read_prompt_list(input_jsonl_filename):
+def read_prompt_list(prompt_dict):
   """Read inputs from jsonl."""
   inputs = []
-  with open(input_jsonl_filename, "r") as f:
-    for l in f:
-      example = json.loads(l)
-      inputs.append(
-          InputExample(key=example["key"],
-                       instruction_id_list=example["instruction_id_list"],
-                       prompt=example["prompt"],
-                       kwargs=example["kwargs"]))
+  for example in prompt_dict:
+    inputs.append(
+        InputExample(key=example["key"],
+                     instruction_id_list=example["instruction_id_list"],
+                     prompt=example["prompt"],
+                     kwargs=example["kwargs"]))
   return inputs
-
 
 def write_outputs(output_jsonl_filename, outputs):
   """Writes outputs to jsonl."""
@@ -185,14 +183,11 @@ def test_instruction_following_loose(
       follow_instruction_list=is_following_list,
   )
 
-
-def read_prompt_to_response_dict(input_jsonl_filename):
+def read_prompt_to_response_dict(response_dict):
   """Creates dictionary matching prompt and response."""
   return_dict = {}
-  with open(input_jsonl_filename, "r") as f:
-    for l in f:
-      example = json.loads(l)
-      return_dict[example["prompt"]] = example["response"]
+  for example in response_dict:
+    return_dict[example["prompt"]] = example["response"]
   return return_dict
 
 
@@ -248,38 +243,21 @@ def print_report(outputs):
     print(f"{instruction_id} {accuracy}")
 
 
-def main(argv):
-  if len(argv) > 1:
-    raise app.UsageError("Too many command-line arguments.")
+def do_ife(response_dict):
+  inputs = read_prompt_list(response_dict)
+  prompt_to_response = read_prompt_to_response_dict(response_dict)
 
-  inputs = read_prompt_list(_INPUT_DATA.value)
-  prompt_to_response = read_prompt_to_response_dict(
-      _INPUT_RESPONSE_DATA.value)
+  result={}
 
-  # get instruction following results
-  for func, output_file_name in [
-      (test_instruction_following_strict, "eval_results_strict"),
-      (test_instruction_following_loose, "eval_results_loose"),
+  for func, stringency in [
+      (test_instruction_following_strict, "strict"),
+      (test_instruction_following_loose, "loose"),
   ]:
-    logging.info("Generating %s...", output_file_name)
     outputs = []
     for inp in inputs:
       outputs.append(func(inp, prompt_to_response))
     follow_all_instructions = [o.follow_all_instructions for o in outputs]
     accuracy = sum(follow_all_instructions) / len(outputs)
-    logging.info("Accuracy: %f", accuracy)
+    result["ife_acc_"+stringency]=accuracy
 
-    output_file_name = os.path.join(
-        _OUTPUT_DIR.value, output_file_name + ".jsonl"
-    )
-    write_outputs(output_file_name, outputs)
-    logging.info("Generated: %s", output_file_name)
-
-    # Prints instruction following accuracy report.
-    print("=" * 64)
-    print(f"{output_file_name} Accuracy Scores:")
-    print_report(outputs)
-
-
-if __name__ == "__main__":
-  app.run(main)
+  return result
