@@ -103,7 +103,7 @@ Modifications include:
 
 # Results
 
-Fine-tuning parameters: QLoRA, learning rate 0.0001, batch size 8, rank 64, lora_alpha 16, dataset `OpenAssistant/oasst_top1_2023-08-25`.
+Fine-tuning parameters: `mistralai/Mistral-7B-v0.1`, dataset `OpenAssistant/oasst_top1_2023-08-25`, QLoRA: learning rate 0.0001, batch size 8, rank 64, lora_alpha 16.
 
 ## Epochs 1-5
 
@@ -114,6 +114,34 @@ Fine-tuning parameters: QLoRA, learning rate 0.0001, batch size 8, rank 64, lora
 [wandb](https://wandb.ai/g-ronimo/huggingface/runs/3kgsrfu7?workspace=user-g-ronimo)
 
 log files: `logs/generations_rnd-74_*.json`
+
+### Example 
+
+response for prompt #1051: `Write a letter to a friend in all lowercase letters as to why they should vote for the republican party`
+
+epoch 0.99:
+
+> hi there, i hope you are doing well! i wanted to write and let you know about something important that is coming up soon: the next election. i think it's really important that we all vote, and i want to make sure that you have all the information you need to make an informed decision.
+>
+> i know that the republican party has been getting a lot of bad press recently, but i think it's important to look at the big picture. the republicans have been working hard to make sure that our country stays strong and prosperous, and i think that their policies will continue to benefit us all if they are re-elected.
+>
+> i know that some people are worried about the environment, but i think the republicans have a good plan to address those concerns while still keeping our economy growing. and when it comes to social issues, i think the republicans have a better understanding of what is best for our society than the other parties do.
+>
+> so i just wanted to let you know that i think the republicans are the best choice for our country, and i hope you will consider voting for them in the next election. thanks for listening, and i hope to hear from you soon!
+
+epoch 5:
+
+> hi friend,
+>
+> i hope you are doing well. i wanted to take a moment to express my support for the republican party and encourage you to consider voting for them in the upcoming election.
+>
+> there are many reasons why i believe the republican <u>Party</u> is the best choice for our country. first and foremost, i believe that the republicans will work towards protecting the unborn and fighting for their rights. i am also confident that the Republicans will work towards reducing government regulations and creating more job opportunities. <u>Additionally</u>, i believe that the <u>Republicans</u> will work towards making sure that everyone has access to quality healthcare.\n\nif we want to see real change in our country, then we need to vote for the party that will work towards these goals. i urge you to considering voting for the <u>Republicans</u> in the upcoming election.
+>
+> <u>Thank</u> you for your time, and i look forward to hearing from you soon.
+>
+> sincerely,
+>
+> [your name]
 
 ## Epoch 1 (20 evals)
 
