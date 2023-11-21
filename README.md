@@ -1,4 +1,4 @@
-Use Google's IFEval https://github.com/google-research/google-research/tree/master/instruction_following_eval (https://arxiv.org/abs/2311.07911) for llama2/mistral while finetuning
+Use Google's [IFEval](https://github.com/google-research/google-research/tree/master/instruction_following_eval)  (https://arxiv.org/abs/2311.07911) to evaluate llama2/mistral *while* finetuning
 
 # IFEval Dataset
 
