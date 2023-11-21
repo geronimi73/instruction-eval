@@ -1,6 +1,6 @@
 Use Google's [IFEval](https://github.com/google-research/google-research/tree/master/instruction_following_eval)  (https://arxiv.org/abs/2311.07911) to evaluate llama2/mistral *while* training
 
-![wb_small](assets/wb_small.png)
+![wb_small](assets/wandb_small.png)
 
 # IFEval Dataset
 
@@ -32,6 +32,8 @@ for each instruction, two accuracies are calculated:
 
 - `ife_acc_strict`
 - `ife_acc_loose`: "*Even though we can verify if an instruction is followed using simple heuristics and programming, we found that there are still false negatives. For example, for a given verifiable instruction of “end your email with: P.S. I do like the cake”, a language model may follow the instruction by ending the email with “P.S. **I do like the cake**” which has markdown tags (** indicates the bold text). If we simply check the string match of “P.S. I do like the cake”, we will miss-classify it as not-followed. To alleviate this false negative problem, we compute a loose accuracy score of instruction following*"
+
+Both of these numbers are calculated on the prompt level (one prompt consists of ≥1 instructions) and instruction level. Prompt level evaluation is more strict, each prompt is ticked as correct only if all the contained instructions are met in the LLMs reponse.  The authors report all four numbers in the paper, for simplicity the numbers and code below refer to prompt level accuracy only. 
 
 # Code
 
@@ -109,13 +111,13 @@ Fine-tuning parameters: `mistralai/Mistral-7B-v0.1`, dataset `OpenAssistant/oass
 
 ## Epochs 1-5 (3 evals per epoch)
 
-![W&B Chart 21_11_2023, 07_55_44](assets/W&B%20Chart%2021_11_2023,%2007_55_44.png)
+![wandb_e1-5_ife](assets/wandb_e1-5_ife.png)
 
-![W&B Chart 21_11_2023, 07_55_34](assets/W&B%20Chart%2021_11_2023,%2007_55_34.png)
+![wandb_e1-5_loss](assets/wandb_e1-5_loss.png)
 
-[wandb](https://wandb.ai/g-ronimo/huggingface/runs/3kgsrfu7?workspace=user-g-ronimo)
+[wandb](https://wandb.ai/g-ronimo/huggingface/runs/hq9jjucm?workspace=user-g-ronimo)
 
-log files: `logs/generations_rnd-74_*.json`
+log files: `logs/generations_rnd-391_*.json`
 
 ### Example 
 
@@ -123,13 +125,15 @@ response for prompt #1051: `Write a letter to a friend in all lowercase letters 
 
 epoch 0.99:
 
-> hi there, i hope you are doing well! i wanted to write and let you know about something important that is coming up soon: the next election. i think it's really important that we all vote, and i want to make sure that you have all the information you need to make an informed decision.
+> hi there, i hope you are doing well! i wanted to talk to you about something important that is coming up soon: the next election. i know it can be hard to decide who to vote for, but i think you should consider voting for the republican party. here's why:
 >
-> i know that the republican party has been getting a lot of bad press recently, but i think it's important to look at the big picture. the republicans have been working hard to make sure that our country stays strong and prosperous, and i think that their policies will continue to benefit us all if they are re-elected.
+> 1. the republican party cares about the people. they want to make sure that everyone has a chance to succeed and live their best life. they believe in helping those who need it most, and they work hard to make sure that happens.
+> 2. the republican party wants to keep our country strong and safe. they understand that we need to protect ourselves from threats both inside and outside of our borders. they will do everything they can to keep us secure.
 >
-> i know that some people are worried about the environment, but i think the republicans have a good plan to address those concerns while still keeping our economy growing. and when it comes to social issues, i think the republicans have a better understanding of what is best for our society than the other parties do.
->
-> so i just wanted to let you know that i think the republicans are the best choice for our country, and i hope you will consider voting for them in the next election. thanks for listening, and i hope to hear from you soon!
+> 3. the republican party believes in freedom and liberty. they want to make sure that every american has the opportunity to pursue their dreams without being held back by government bureaucracy or red tape. they believe in individual responsibility and personal accountability.
+> 4. finally, the republican party stands for traditional values like family, faith, and community. they understand that these things are what make America great, and they will work to protect them at all costs.
+> 
+>i know this may not be enough information to make up your mind, but i hope it helps give you some insight into why i think you should vote for the republican party. if you have any questions or concerns, please don't hesitate to ask me!
 
 epoch 5:
 
@@ -147,11 +151,11 @@ epoch 5:
 
 ## Epoch 1 (20 evals)
 
-![W&B Chart 21_11_2023, 07_59_45](assets/W&B%20Chart%2021_11_2023,%2007_59_45.jpg)
+![wandb_e1_ife](assets/wandb_e1_ife.png)
 
-![W&B Chart 21_11_2023, 07_59_36](assets/W&B%20Chart%2021_11_2023,%2007_59_36.jpg)
+![wandb_e1_loss](assets/wandb_e1_loss.png)
 
-[wandb](https://wandb.ai/g-ronimo/huggingface/runs/x0q4222s?workspace=user-g-ronimo)
+[wandb](https://wandb.ai/g-ronimo/huggingface/runs/zd9z4yb1?workspace=user-g-ronimo)
 
-log files: `logs/generations_rnd-568_*.json`
+log files: `logs/generations_rnd-724_*.json`
 
