@@ -106,7 +106,11 @@ def test_instruction_following_strict(
     instruction_cls = instructions_registry.INSTRUCTION_DICT[instruction_id]
     instruction = instruction_cls(instruction_id)
 
-    instruction.build_description(**inp.kwargs[index])
+    if isinstance(instruction, instructions.RepeatPromptThenAnswer):
+      instruction.build_description(prompt_to_repeat=inp.prompt.split("\n")[0],**inp.kwargs[index])
+    else:
+      instruction.build_description(**inp.kwargs[index])
+
     args = instruction.get_instruction_args()
     if args and "prompt" in args:
       instruction.build_description(prompt=inp.prompt)
