@@ -192,7 +192,6 @@ class InstructEvalCallback(TrainerCallback):
     def on_evaluate(self, args: TrainingArguments, state: TrainerState, control: TrainerControl, model, tokenizer, eval_dataloader, **kwargs):
         self.eval_num+=1   # keep track of how many evals we did already
         model.eval()
-        torch.cuda.empty_cache()
         model.config.use_cache = True
 
         # split questions among GPUs
@@ -224,11 +223,11 @@ class InstructEvalCallback(TrainerCallback):
 
         resp_gathered=gather_object(responses)  # collect results from all GPUs
 
-        # clean incomplete answers, remove eos
+        # cut at eos if exists in pred.
         eos_str="<|im_end|>"
-        resp_gathered = [ r for r in resp_gathered if eos_str in r["response"] ]
         for r in resp_gathered:
-            r["response"]=r["response"].split(eos_str)[0]
+            if eos_str in r["response"]:
+                r["response"]=r["response"].split(eos_str)[0]
 
         # log to trainer
         ife_result=evaluation_main.do_ife(response_dict=resp_gathered)
@@ -253,11 +252,11 @@ trainer.add_callback(
         logid=logid,
     ))
 
-# # evaluate after first step for baseline
-# class EvaluateFirstStepCallback(TrainerCallback):
-#     def on_step_end(self, args, state, control, **kwargs):
-#         if state.global_step == 1:
-#             control.should_evaluate = True
+# evaluate after first step for baseline
+class EvaluateFirstStepCallback(TrainerCallback):
+    def on_step_end(self, args, state, control, **kwargs):
+        if state.global_step == 1:
+            control.should_evaluate = True
 # trainer.add_callback(EvaluateFirstStepCallback())
 
 trainer.train()
