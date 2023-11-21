@@ -35,8 +35,8 @@ eval_ds_file="instruction_following_eval/data/input_data.jsonl"     # https://gi
 lr=0.0001
 bs=8        # batch size
 ga_steps=1  # gradient acc. steps
-epochs=1
-evals_per_epoch=20
+epochs=5
+evals_per_epoch=3
 logid=randint(0,1000)
 run_name=modelpath.split("/")[-1]+f"-LR-{lr}_BS-{bs}-{logid}"
 use_wandb=True
@@ -45,8 +45,6 @@ set_seed(42)
 
 # Load Instruct-Eval dataset
 eval_ds=read_jsonl(eval_ds_file)
-
-breakpoint()
 
 if not use_wandb:
     wandb.init(mode="disabled") 
@@ -171,7 +169,7 @@ class InstructEvalCallback(TrainerCallback):
         self.generation_config = generation_config
         self.eval_ds_all=eval_ds
         self.template="<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n"
-        self.bs=32      # batch size for generate()
+        self.bs=40      # batch size for generate()
         self.eval_num=0
         self.accelerator=accelerator
         self.logid=logid
@@ -194,6 +192,7 @@ class InstructEvalCallback(TrainerCallback):
     def on_evaluate(self, args: TrainingArguments, state: TrainerState, control: TrainerControl, model, tokenizer, eval_dataloader, **kwargs):
         self.eval_num+=1   # keep track of how many evals we did already
         model.eval()
+        torch.cuda.empty_cache()
         model.config.use_cache = True
 
         # split questions among GPUs
@@ -227,11 +226,9 @@ class InstructEvalCallback(TrainerCallback):
 
         # clean incomplete answers, remove eos
         eos_str="<|im_end|>"
+        resp_gathered = [ r for r in resp_gathered if eos_str in r["response"] ]
         for r in resp_gathered:
-            if not eos_str in r["response"]:
-                resp_gathered.remove(r)
-            else:
-                r["response"]=r["response"].split(eos_str)[0]
+            r["response"]=r["response"].split(eos_str)[0]
 
         # log to trainer
         ife_result=evaluation_main.do_ife(response_dict=resp_gathered)
@@ -239,8 +236,8 @@ class InstructEvalCallback(TrainerCallback):
 
         # log to file
         if accelerator.is_main_process:
-            ife_result["responses"]=resp_gathered
             ife_result["num_samples"]=len(resp_gathered)
+            ife_result["responses"]=resp_gathered
             write_pretty_json(f"generations_rnd-{logid}_{self.eval_num}.json",ife_result)
 
         tokenizer.padding_side="right"
@@ -256,12 +253,12 @@ trainer.add_callback(
         logid=logid,
     ))
 
-# evaluate after first step for baseline
-class EvaluateFirstStepCallback(TrainerCallback):
-    def on_step_end(self, args, state, control, **kwargs):
-        if state.global_step == 1:
-            control.should_evaluate = True
-trainer.add_callback(EvaluateFirstStepCallback())
+# # evaluate after first step for baseline
+# class EvaluateFirstStepCallback(TrainerCallback):
+#     def on_step_end(self, args, state, control, **kwargs):
+#         if state.global_step == 1:
+#             control.should_evaluate = True
+# trainer.add_callback(EvaluateFirstStepCallback())
 
 trainer.train()
 
