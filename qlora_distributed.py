@@ -239,7 +239,6 @@ class InstructEvalCallback(TrainerCallback):
             ife_result["responses"]=resp_gathered
             write_pretty_json(f"generations_rnd-{logid}_{self.eval_num}.json",ife_result)
 
-        tokenizer.padding_side="right"
         model.config.use_cache = False
 
         return control
